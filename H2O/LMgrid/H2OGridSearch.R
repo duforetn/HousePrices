@@ -6,7 +6,7 @@ alphaGrid = seq(from = 0, to = 1, by= .05)
 
 glm_params = list(lambda = lambdaGrid, alpha = alphaGrid)
 
-glm_grid = h2o.grid("glm", x=x, y=y, training_frame = h2oTrainDataSet, hyper_params = glm_params, nfolds = 5, seed = 1, grid_id = 'myGrid')
+glm_grid = h2o.grid("glm", x=x, y=y, training_frame = h2oTrainDataSet, hyper_params = glm_params, nfolds = 5, seed = 1, grid_id = 'myGrid', keep_cross_validation_predictions = TRUE)
 
 gridPerf = h2o.getGrid(grid_id = 'myGrid')
 
