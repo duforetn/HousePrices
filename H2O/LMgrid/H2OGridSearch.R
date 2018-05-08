@@ -16,7 +16,8 @@ predictions <- h2o.predict(LinearModel, newdata=h2oValidDataSet)
 y_test = matrix(h2oValidDataSet[y])
 y_pred = matrix(predictions$predict)
 validRMSE = sqrt(mean((y_test - y_pred)**2))
-plot(y_pred, y_test)
+plot(y_pred, y_test, main = validRMSE)
+abline(0, 1)
 
 # stop
 h2o.shutdown()
