@@ -12,6 +12,7 @@ gridPerf = h2o.getGrid(grid_id = 'myGrid')
 
 LinearModel = h2o.getModel(gridPerf@model_ids[[1]])
 
+nModels = length(gridPerf@model_ids)
 predictions <- h2o.predict(LinearModel, newdata=h2oValidDataSet)
 y_test = matrix(h2oValidDataSet[y])
 y_pred = matrix(predictions$predict)
