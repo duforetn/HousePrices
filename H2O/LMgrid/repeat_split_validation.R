@@ -1,10 +1,15 @@
+train_prop = c(.4, .6, .8)
+
+for (trainProportion in train_prop) {
 source('getKFoldErrors.R')
 
 rmse_rep <- NULL
-nRep = 10
+nRep = 20
 nK = 20
-cat('Best', 2:nK, '\n', file = "results_RMSEK.txt")
+cat('Best', 1:nK, '\n', file = "results_RMSEK.txt")
 for (rep in 1:nRep) {
+	print(paste("GO FOR ", trainProportion, "rep", rep))
+
 	source('H2OGridSearch.R')
 
 	#xcross error per model
@@ -16,7 +21,7 @@ for (rep in 1:nRep) {
 
 	#Estimate RMSE for different K values
 	rmse_K <- validRMSE
-	for (K in 2:nK) {
+	for (K in 1:nK) {
                 best_model = apply(model_errors, 1, which.min)
                 models_tokeep= as.numeric(names(sort(table(best_model), decreasing=TRUE)[1:K]))
 
@@ -30,8 +35,10 @@ for (rep in 1:nRep) {
 	}
 
 	# append results
-	cat(rmse_K, '\n', file = "results_RMSEK.txt", append = TRUE)
+	cat(rmse_K, '\n', file = paste("results_RMSEK", trainProportion, ".txt", sep = ''), append = TRUE)
 
 	rmse_rep <- rbind(rmse_rep, rmse_K)
 	h2o.removeAll()
+}
+
 }

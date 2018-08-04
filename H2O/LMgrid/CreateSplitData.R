@@ -1,5 +1,6 @@
 library(h2o)
 
+h2o.removeAll()
 fileName = "data.csv"
 path = '../../data/preprocessed/'
 #fileName = '../data/kaggle_version/train.csv'
@@ -13,7 +14,6 @@ x = colnames(h2oDataSet)[2:80]
 y = "SalePrice"
 
 # Create a split
-trainProportion = .8
 n = nrow(h2oDataSet)
 trainingSample = sort(sample(1:n, round(n*trainProportion), replace = FALSE))
 validationSample = (1:n)[-trainingSample]

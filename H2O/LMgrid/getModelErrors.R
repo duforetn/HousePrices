@@ -10,13 +10,14 @@ for (model in 1:length(gridPerf@model_ids)) {
 
 #xcross error per model
 model_errors = matrix(0, nrow(h2oTrainDataSet), length(gridPerf@model_ids))
+source('getKFoldErrors.R')
 for (model in 1:length(gridPerf@model_ids)) {
    y_train = as.matrix(h2oTrainDataSet[, y])
    model_errors[, model] <- getKFoldErrors(h2o.getModel(gridPerf@model_ids[[model]]), y_train, 5)**2
 }
 
 #select K models based on Kflod
-K = 20
+K = 50
 best_model = apply(model_errors, 1, which.min)
 models_tokeep= as.numeric(names(sort(table(best_model), decreasing=TRUE)[1:K]))
 
@@ -31,7 +32,8 @@ for (model in models_tokeep) model_list <- c(model_list, h2o.getModel(gridPerf@m
 ensemble_model = h2o.stackedEnsemble(x=x, y=y, training_frame = h2oTrainDataSet, base_models = model_list, metalearner_algorithm = "drf")
 
 ensemble_predictions = as.matrix(h2o.predict(ensemble_model, newdata=h2oValidDataSet))
-ensembleRMSE = sqrt(mean((y_test[, 1] - ensemble_predictions)**2))
-plot(ensemble_predictions, y_test[, 1], main = ensembleRMSE)
+ensembleRMSE = sqrt(mean((y_test[, 1] - ensemble_predictions[, 1])**2))
+ensembleRMSLE = sqrt(mean((log(ensemble_predictions[, 1] + 1) - log(y_test[, 1] + 1))**2))
+x11(); plot(ensemble_predictions, y_test[, 1], main = c(ensembleRMSE, ensembleRMSLE))
 abline(0, 1)
 

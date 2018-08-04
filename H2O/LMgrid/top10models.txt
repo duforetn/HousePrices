@@ -1,0 +1,16 @@
+index 57 104  20  99  25  22  19  24  18  21
+models 84 20 101 104 99 100 79 42 78 80
+score 424 258 56 55 40 37 36 36 31 31
+
+for (i in models_tokeep[1:10]) print(paste('index:', i, 'model:', gridPerf@model_ids[[i]], 'score:', length(which(best_model == i))))
+[1] "index: 33 model: myGrid_model_84 score: 207"
+[1] "index: 104 model: myGrid_model_20 score: 158"
+[1] "index: 32 model: myGrid_model_85 score: 56"
+[1] "index: 105 model: myGrid_model_104 score: 47"
+[1] "index: 2 model: myGrid_model_100 score: 30"
+[1] "index: 4 model: myGrid_model_63 score: 27"
+[1] "index: 38 model: myGrid_model_80 score: 27"
+[1] "index: 1 model: myGrid_model_101 score: 26"
+[1] "index: 3 model: myGrid_model_99 score: 26"
+[1] "index: 39 model: myGrid_model_42 score: 24"
+
